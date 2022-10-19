@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from GL import Renderer, Buffer
+from GL import Renderer, Model
 from shaders import *
 width = 960
 height = 540
@@ -16,8 +16,11 @@ triangle = [-0.5, -0.5, 0,          1.0, 0.0, 0.0,
             0, 0.5, 0,              0.0, 1.0, 0.0,
             0.5, -0.5, 0,           0.0, 0.0, 1.0,
             ]
+
+triangle = Model(triangle)
+triangle.position.z -= 10
 rend.setShadders(VERTEX_SHADER, FRAGMENT_SHADER)
-rend.scene.append(Buffer(triangle))
+rend.scene.append(triangle)
 
 isRunning = True
 
@@ -29,6 +32,7 @@ while isRunning:
             if event.key == pygame.K_ESCAPE: isRunning = False
 
     deltaTime = clock.tick(60) / 1000
+    rend.update()
     rend.render()
     pygame.display.flip()
 
